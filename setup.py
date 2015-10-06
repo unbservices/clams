@@ -28,7 +28,7 @@ if __name__ == '__main__':
     description='Create simple, nested, command-line interfaces.',
     author='Nick Zarczynski',
     author_email='nick@unb.services',
-    url='https://bitbucket.org/unbsolutions/clams/',
+    url='https://github.com/unbservices/clams',
     license='MIT',
     packages=['clams'],
     include_package_data=True,

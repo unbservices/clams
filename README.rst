@@ -77,8 +77,7 @@ Issue Reporting and Contact Information
 ---------------------------------------
 
 If you have any problems with this software, please take a moment to report
-them at https://bitbucket.org/unbsolutions/clams/issues/ or  by email to
-nick@unb.services.
+them at https://github.com/unbservices/clams or by email to nick@unb.services.
 
 If you are a security researcher or believe you have found a security
 vulnerability in this software, please contact us by email at

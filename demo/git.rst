@@ -14,9 +14,9 @@ Git's UI (A Primer)
 Before we move on to implementation, let's take a moment to examine what the
 current git interface is.
 
-`git` is the primary entrypoint to the git command line interface.  To do
+``git`` is the primary entrypoint to the git command line interface.  To do
 anything with git you must first type `git` at the prompt.  If we type only
-`git` we get back a usage message and a list of subcommands:
+``git`` we get back a usage message and a list of subcommands:
 
 
 .. code-block:: bash
@@ -93,7 +93,7 @@ Here you can see that ``<branch>`` is a positional argument (also a required
 one).
 
 Git doesn't just stop at one level of subcommands though.  Some subcommands
-have their own sets of subcommands!  
+have their own sets of subcommands!
 
 .. code-block:: bash
 
