@@ -10,6 +10,9 @@
 # distributions
 dist
 
+# package builds
+build
+
 
 # OS Specific Files
 # =================
