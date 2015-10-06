@@ -8,9 +8,9 @@ Applications Made Simple).
 Installation
 ------------
 
-.. code-block:: console
+.. code-block:: Bash Session
 
-    pip install clams --extra-index-url https://repo.fury.io/nickzarr/
+   pip install clams --extra-index-url https://repo.fury.io/nickzarr/
 
 
 Example
@@ -47,18 +47,18 @@ found at `/demo/salutation.py </demo/salutation.py>`_.
 
 Usage:
 
-.. code-block:: console
+.. code-block:: Bash Session
 
-    $ cd demo
+   $ cd demo
 
-    $ ./salutation.py hello
-    Hello Nick
+   $ ./salutation.py hello
+   Hello Nick
 
-    $ ./salutation.py hello Jason
-    Hello Jason
+   $ ./salutation.py hello Jason
+   Hello Jason
 
-    $ ./salutation.py goodbye "my friend."
-    Goodbye my friend.
+   $ ./salutation.py goodbye "my friend."
+   Goodbye my friend.
 
 
 
