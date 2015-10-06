@@ -1,0 +1,17 @@
+# Python
+# ======
+
+# setup.py egg-info
+*.egg-info/
+
+# compiled files
+*.py[cod]
+
+# distributions
+dist
+
+
+# OS Specific Files
+# =================
+
+.DS_Store

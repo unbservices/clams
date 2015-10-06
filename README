@@ -1,0 +1,92 @@
+Clams
+=====
+
+Create simple, nested, command-line interfaces with Clams (Command Line
+Applications Made Simple).
+
+
+Installation
+------------
+
+    pip install clams --extra-index-url https://repo.fury.io/nickzarr/
+
+
+Example
+-------
+
+A simple example with one `hello` sub-command.  This can be found at
+[/demo/salutation.py](/demo/salutation.py).
+
+    from clams import arg, Command
+
+
+    root = Command('salutation')
+
+
+    @root.register('hello')
+    @arg('name', nargs='?')  # <== same interface as argparse's `add_argument`
+    def handler(name):
+        print 'Hello %s' % name or 'Nick'
+
+
+    @root.register('goodbye')
+    @arg('name', nargs='?')
+    def handler(name):
+        print 'Goodbye %s' % name or 'Nick'
+
+
+    if __name__ == '__main__':
+        root.init()
+        root.parse_args()
+
+
+Usage:
+
+    $ cd demo
+
+    $ ./salutation.py hello
+    Hello Nick
+
+    $ ./salutation.py hello Jason
+    Hello Jason
+
+    $ ./salutation.py goodbye "my friend."
+    Goodbye my friend.
+
+
+
+
+
+Documentation
+-------------
+
+Documentation for Clams can be found in the ``/docs`` directory.
+
+
+Issue Reporting and Contact Information
+---------------------------------------
+
+If you have any problems with this software, please take a moment to report
+them at https://bitbucket.org/unbsolutions/clams/issues/ or  by email to
+nick@unb.services.
+
+If you are a security researcher or believe you have found a security
+vulnerability in this software, please contact us by email at
+nick@unb.services.
+
+
+Contributing
+------------
+
+Contributions are always welcome, whether it's reporting a bug or sending a
+pull request.  If you want to help, but don't know where to start, email me at
+nick@unb.services and I'll try to point you in the right direction.
+
+
+Copyright and License Information
+---------------------------------
+
+Copyright (c) 2015 Nick Zarczynski
+
+This project is licensed under the MIT license.  Please see the LICENSE file
+for more information.
