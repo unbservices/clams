@@ -16,8 +16,8 @@ Installation
 Example
 -------
 
-A simple example with one ``hello`` sub-command.  This can be found at
-`/demo/salutation.py </demo/salutation.py>`_.
+A simple example with a ``hello`` and a ``goodbye`` sub-command.  This can be
+found at `/demo/salutation.py </demo/salutation.py>`_.
 
 
 .. code-block:: python
