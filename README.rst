@@ -8,7 +8,7 @@ Applications Made Simple).
 Installation
 ------------
 
-.. code-block:: BashSession
+.. code-block:: bash_session
 
    pip install clams --extra-index-url https://repo.fury.io/nickzarr/
 
@@ -47,7 +47,7 @@ found at `/demo/salutation.py </demo/salutation.py>`_.
 
 Usage:
 
-.. code-block:: BashSession
+.. code-block:: bashsession
 
    $ cd demo
 
