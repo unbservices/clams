@@ -8,7 +8,7 @@ Applications Made Simple).
 Installation
 ------------
 
-.. code-block:: session
+.. code-block:: bash
 
    pip install clams --extra-index-url https://repo.fury.io/nickzarr/
 
@@ -47,7 +47,7 @@ found at `/demo/salutation.py </demo/salutation.py>`_.
 
 Usage:
 
-.. code-block:: shell
+.. code-block:: bash
 
    $ cd demo
 
@@ -55,7 +55,7 @@ Usage:
    Hello Nick
 
 
-.. code-block:: shell-session
+.. code-block:: bash
 
    $ ./salutation.py hello Jason
    Hello Jason
@@ -70,7 +70,7 @@ Usage:
 Documentation
 -------------
 
-Documentation for Clams can be found in the ``/docs`` directory.
+Documentation for Clams can be found in the `/docs </docs>`_ directory.
 
 
 Issue Reporting and Contact Information
