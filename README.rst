@@ -8,39 +8,46 @@ Applications Made Simple).
 Installation
 ------------
 
+.. code-block:: bash
+
     pip install clams --extra-index-url https://repo.fury.io/nickzarr/
 
 
 Example
 -------
 
-A simple example with one `hello` sub-command.  This can be found at
-[/demo/salutation.py](/demo/salutation.py).
+A simple example with one ``hello`` sub-command.  This can be found at
+`/demo/salutation.py </demo/salutation.py>`_.
+
+
+.. code-block:: python
 
     from clams import arg, Command
 
 
-    root = Command('salutation')
+    salutation = Command('salutation')
 
 
-    @root.register('hello')
-    @arg('name', nargs='?')  # <== same interface as argparse's `add_argument`
+    @salutation.register('hello')
+    @arg('name', nargs='?')  # <== same interface as argparse's ``add_argument``
     def handler(name):
-        print 'Hello %s' % name or 'Nick'
+        print 'Hello %s' % (name or 'Nick')
 
 
-    @root.register('goodbye')
+    @salutation.register('goodbye')
     @arg('name', nargs='?')
     def handler(name):
-        print 'Goodbye %s' % name or 'Nick'
+        print 'Goodbye %s' % (name or 'Nick')
 
 
     if __name__ == '__main__':
-        root.init()
-        root.parse_args()
+        salutation.init()
+        salutation.parse_args()
 
 
 Usage:
+
+.. code-block:: bash
 
     $ cd demo
 
