@@ -47,7 +47,7 @@ found at `/demo/salutation.py </demo/salutation.py>`_.
 
 Usage:
 
-.. code-block:: console
+.. code-block:: shell
 
    $ cd demo
 
@@ -55,7 +55,7 @@ Usage:
    Hello Nick
 
 
-.. code-block:: bash
+.. code-block:: shell-session
 
    $ ./salutation.py hello Jason
    Hello Jason
