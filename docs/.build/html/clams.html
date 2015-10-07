@@ -1,0 +1,436 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Clams &mdash; Clams 0.0.4 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Clams 0.0.4 documentation" href="index.html"/>
+        <link rel="next" title="Contributing" href="contributing.html"/>
+        <link rel="prev" title="Welcome to Clams documentation!" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Clams
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="">Clams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Clams</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Clams</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/clams.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <span class="target" id="module-clams"></span><div class="section" id="clams">
+<h1>Clams<a class="headerlink" href="#clams" title="Permalink to this headline">¶</a></h1>
+<p>Create simple, nested, command-line interfaces.</p>
+<p class="rubric">Example</p>
+<p>A simple example with <code class="docutils literal"><span class="pre">hello</span></code> and <code class="docutils literal"><span class="pre">goodbye</span></code> subcommands.  This can be found
+at <a class="reference external" href="/demo/salutation.py">/demo/salutation.py</a>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">clams</span> <span class="kn">import</span> <span class="n">arg</span><span class="p">,</span> <span class="n">Command</span>
+
+<span class="n">salutation</span> <span class="o">=</span> <span class="n">Command</span><span class="p">(</span><span class="s">&#39;salutation&#39;</span><span class="p">)</span>
+
+<span class="nd">@salutation.register</span><span class="p">(</span><span class="s">&#39;hello&#39;</span><span class="p">)</span>
+<span class="nd">@arg</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s">&#39;?&#39;</span><span class="p">)</span>  <span class="c"># &lt;== same interface as argparse&#39;s `add_argument`</span>
+<span class="k">def</span> <span class="nf">handler</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="k">print</span> <span class="s">&#39;Hello </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">name</span> <span class="ow">or</span> <span class="s">&#39;Nick&#39;</span>
+
+<span class="nd">@salutation.register</span><span class="p">(</span><span class="s">&#39;goodbye&#39;</span><span class="p">)</span>
+<span class="nd">@arg</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s">&#39;?&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">handler</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="k">print</span> <span class="s">&#39;Goodbye </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">name</span> <span class="ow">or</span> <span class="s">&#39;Nick&#39;</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">salutation</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+    <span class="n">salutation</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Usage:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> <span class="nb">cd </span>demo
+
+<span class="gp">$</span> ./salutation.py hello
+<span class="go">Hello Nick</span>
+
+<span class="gp">$</span> ./salutation.py hello Jason
+<span class="go">Hello Jason</span>
+
+<span class="gp">$</span> ./salutation.py goodbye <span class="s2">&quot;my friend.&quot;</span>
+<span class="go">Goodbye my friend.</span>
+</pre></div>
+</div>
+<p>For more in-depth examples, see the <a class="reference external" href="/demo">/demo</a> directory.</p>
+<dl class="class">
+<dt id="clams.Command">
+<em class="property">class </em><code class="descclassname">clams.</code><code class="descname">Command</code><span class="sig-paren">(</span><em>name</em>, <em>title=''</em>, <em>description=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/clams.html#Command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#clams.Command" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="clams.Command.add_arg">
+<code class="descname">add_arg</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/clams.html#Command.add_arg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#clams.Command.add_arg" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="clams.Command.add_arg_tuple">
+<code class="descname">add_arg_tuple</code><span class="sig-paren">(</span><em>arg_tuple</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/clams.html#Command.add_arg_tuple"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#clams.Command.add_arg_tuple" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="clams.Command.add_command">
+<code class="descname">add_command</code><span class="sig-paren">(</span><em>command</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/clams.html#Command.add_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#clams.Command.add_command" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="clams.Command.add_handler">
+<code class="descname">add_handler</code><span class="sig-paren">(</span><em>handler</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/clams.html#Command.add_handler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#clams.Command.add_handler" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="clams.Command.attach_registered_arguments">
+<code class="descname">attach_registered_arguments</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/clams.html#Command.attach_registered_arguments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#clams.Command.attach_registered_arguments" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="clams.Command.attach_registered_commands">
+<code class="descname">attach_registered_commands</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/clams.html#Command.attach_registered_commands"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#clams.Command.attach_registered_commands" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="clams.Command.init">
+<code class="descname">init</code><span class="sig-paren">(</span><em>command=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/clams.html#Command.init"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#clams.Command.init" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="clams.Command.parse_args">
+<code class="descname">parse_args</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/clams.html#Command.parse_args"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#clams.Command.parse_args" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="clams.Command.register">
+<code class="descname">register</code><span class="sig-paren">(</span><em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/clams.html#Command.register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#clams.Command.register" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="clams.Command.register_command">
+<code class="descname">register_command</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/clams.html#Command.register_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#clams.Command.register_command" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator to create and register a command from a function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<a class="reference external" href="http://python.readthedocs.org/en/v2.7.2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; The name given to the registered command.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">mygit</span> <span class="o">=</span> <span class="n">Command</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;mygit&#39;</span><span class="p">)</span>
+
+<span class="nd">@mygit.register_command</span><span class="p">(</span><span class="s">&#39;status&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">status</span><span class="p">():</span>
+    <span class="kn">import</span> <span class="nn">subprocess</span>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s">&#39;git&#39;</span><span class="p">,</span> <span class="s">&#39;status&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="clams.arg">
+<code class="descclassname">clams.</code><code class="descname">arg</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/clams.html#arg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#clams.arg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Annotate a function by adding the args/kwargs to the meta-data.</p>
+<p>This appends an Argparse &#8220;argument&#8221; to the function&#8217;s
+<code class="docutils literal"><span class="pre">ARGPARSE_ARGS_LIST</span></code> attribute, creating <code class="docutils literal"><span class="pre">ARGPARSE_ARGS_LIST</span></code> if it
+does not already exist.  Aside from that, it returns the decorated function
+unmodified, and unwrapped.</p>
+<p>The &#8220;arguments&#8221; are simply <code class="docutils literal"><span class="pre">(args,</span> <span class="pre">kwargs)</span></code> tuples which will be passed
+to the Argparse parser created from the function as
+<code class="docutils literal"><span class="pre">parser.add_argument(*args,</span> <span class="pre">**kwargs)</span></code>.</p>
+<p><a class="reference external" href="https://docs.python.org/2/library/argparse.html#the-add-argument-method">argparse.add_argument</a>
+should be consulted for up-to-date documentation on the accepted arguments.
+For convenience, a list has been included here.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name/flags</strong> (<em>str or list</em>) &#8211; Either a name or a list of (positional) option strings, e.g. (&#8216;foo&#8217;) or
+(&#8216;-f&#8217;, &#8216;&#8211;foo&#8217;).</li>
+<li><strong>action</strong> (<a class="reference external" href="http://python.readthedocs.org/en/v2.7.2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; The basic type of action to be taken when this argument is encountered
+at the command line.</li>
+<li><strong>nargs</strong> (<a class="reference external" href="http://python.readthedocs.org/en/v2.7.2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; The number of command-line arguments that should be consumed.</li>
+<li><strong>const</strong> &#8211; A constant value required by some action and nargs selections.</li>
+<li><strong>default</strong> &#8211; The value produced if the argument is absent from the command line.</li>
+<li><strong>type</strong> (<a class="reference external" href="http://python.readthedocs.org/en/v2.7.2/library/functions.html#type" title="(in Python v2.7)"><em>type</em></a>) &#8211; The type to which the command-line argument should be converted.</li>
+<li><strong>choices</strong> &#8211; A container of the allowable values for the argument.</li>
+<li><strong>required</strong> (<a class="reference external" href="http://python.readthedocs.org/en/v2.7.2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; Whether or not the command-line option may be omitted (optionals only).</li>
+<li><strong>help</strong> (<a class="reference external" href="http://python.readthedocs.org/en/v2.7.2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; A brief description of what the argument does.</li>
+<li><strong>metavar</strong> (<a class="reference external" href="http://python.readthedocs.org/en/v2.7.2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; A name for the argument in usage messages.</li>
+<li><strong>dest</strong> (<a class="reference external" href="http://python.readthedocs.org/en/v2.7.2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; The name of the attribute to be added to the object returned by
+parse_args().</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@arg</span><span class="p">(</span><span class="s">&#39;-n&#39;</span><span class="p">,</span> <span class="s">&#39;--num&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="nd">@arg</span><span class="p">(</span><span class="s">&#39;-s&#39;</span><span class="p">,</span> <span class="s">&#39;--some-switch&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&#39;store_false&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">command_name</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+  <span class="k">print</span> <span class="s">&#39;args: &#39;</span><span class="p">,</span> <span class="n">args</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference external" href="https://docs.python.org/2/library/argparse.html#the-add-argument-method">argparse.add_argument</a></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="clams.command">
+<code class="descclassname">clams.</code><code class="descname">command</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/clams.html#command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#clams.command" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a command, using the wrapped function as the handler.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<a class="reference external" href="http://python.readthedocs.org/en/v2.7.2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Name given to the created Command instance.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A new instance of Command, with handler set to the wrapped function.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#clams.Command" title="clams.Command">Command</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="clams.register">
+<code class="descclassname">clams.</code><code class="descname">register</code><span class="sig-paren">(</span><em>command</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/clams.html#register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#clams.register" title="Permalink to this definition">¶</a></dt>
+<dd><p>Register a command with a parent command.</p>
+<p>The <code class="docutils literal"><span class="pre">register</span></code> decorator decorates a Command instance (not a function).
+It is intended to be used with the <code class="docutils literal"><span class="pre">command</span></code> decorator (which decorates a
+function and returns a Command instance).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>comand</strong> (<a class="reference internal" href="#clams.Command" title="clams.Command"><em>Command</em></a>) &#8211; The parent command.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">git</span> <span class="o">=</span> <span class="n">Command</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;status&#39;</span><span class="p">)</span>
+
+<span class="nd">@register</span><span class="p">(</span><span class="n">git</span><span class="p">)</span>
+<span class="nd">@command</span><span class="p">(</span><span class="s">&#39;status&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">status</span><span class="p">():</span>
+    <span class="k">print</span> <span class="s">&#39;Nothing to commit.&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="clams.register_command">
+<code class="descclassname">clams.</code><code class="descname">register_command</code><span class="sig-paren">(</span><em>parent_command</em>, <em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/clams.html#register_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#clams.register_command" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create and register a command with a parent command.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>parent_comand</strong> (<a class="reference internal" href="#clams.Command" title="clams.Command"><em>Command</em></a>) &#8211; The parent command.</li>
+<li><strong>name</strong> (<a class="reference external" href="http://python.readthedocs.org/en/v2.7.2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Name given to the created Command instance.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">git</span> <span class="o">=</span> <span class="n">Command</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;status&#39;</span><span class="p">)</span>
+
+<span class="nd">@register_command</span><span class="p">(</span><span class="n">git</span><span class="p">,</span> <span class="s">&#39;status&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">status</span><span class="p">():</span>
+    <span class="k">print</span> <span class="s">&#39;Nothing to commit.&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="contributing.html" class="btn btn-neutral float-right" title="Contributing" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Welcome to Clams documentation!" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Nick Zarczynski.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.0.4',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

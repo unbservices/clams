@@ -22,7 +22,7 @@ unb = Command('unb')
 # unb echo[n]
 # -----------
 #
-# There's lots of ways to create sub-commands and register them with the
+# There's lots of ways to create subcommands and register them with the
 # parent.  We'll start with the most manual, and build up from there.
 
 
@@ -119,7 +119,7 @@ if __name__ == '__main__':
     # Just like argparse, we call the root command's `parse_args` method to
     # retrieve the arguments from `sys.argv` and parse them.
     #
-    # When a sub-command is found, the remainder of the arguments will be
+    # When a subcommand is found, the remainder of the arguments will be
     # passed to its handler function, which will perform its action and
     # (optionally) return some value.  `parse_args` does return this value, but
     # it isn't beneficial to us, so we'll just ignore it.

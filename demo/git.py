@@ -6,9 +6,7 @@ This is the executable source-code version of git.rst.
 
 """
 
-
-
-
+from clams import arg, Command
 
 # Let's get some imports out of the way first.  Since we're not going to actually
 # implement any of git, we need to have a method of calling the system's git
@@ -17,7 +15,7 @@ This is the executable source-code version of git.rst.
 import subprocess
 
 
-# First we will create our `git` sub-command.  If you're paying attention,
+# First we will create our `git` subcommand.  If you're paying attention,
 # you'll notice that we have not mentioned the root command at all (but we'll
 # see what this means a bit later).
 
@@ -47,10 +45,8 @@ def handler(all, message):
     return subprocess.call(git_command)
 
 
-# Finally, we'll register our `git` sub-command with our `unb` root command.
-
-unb.add_command(git)
-
+# TODO(nick): Finish converting this!
+# ===================================
 
 # And that's it!  We can now run commands like:
 #
@@ -69,13 +65,13 @@ unb.add_command(git)
 # call the root command's `init` function (with no arguments).
 #
 # This will create the main argparse entrypoint (`argparse.ArgumentParser`) and
-# recursively build all of its sub-commands by calling their `init` methods
-# with itself as the parent/`command` argument.  Each sub-command will,
+# recursively build all of its subcommands by calling their `init` methods
+# with itself as the parent/`command` argument.  Each subcommand will,
 # in-turn, call its own `init` method with itself as the parent/`command`
-# argument.  This allows us to create arbitrarily deep sub-commands (until we
+# argument.  This allows us to create arbitrarily deep subcommands (until we
 # hit Python's maximum recursion depth, anyway).
 
-unb.init()
+git.init()
 
 
 if __name__ == '__main__':
@@ -83,9 +79,9 @@ if __name__ == '__main__':
     # Just like argparse, we call the root command's `parse_args` method to
     # retrieve the arguments from `sys.argv` and parse them.
     #
-    # When a sub-command is found, the remainder of the arguments will be
+    # When a subcommand is found, the remainder of the arguments will be
     # passed to its handler function, which will perform its action and
     # (optionally) return some value.  `parse_args` does return this value, but
     # it isn't beneficial to us, so we'll just ignore it.
 
-    unb.parse_args()
+    git.parse_args()

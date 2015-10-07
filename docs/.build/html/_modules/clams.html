@@ -1,0 +1,518 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>clams &mdash; Clams 0.0.4 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Clams 0.0.4 documentation" href="../index.html"/>
+        <link rel="up" title="Module code" href="index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Clams
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../clams.html">Clams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Clams</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">Module code</a> &raquo;</li>
+      
+    <li>clams</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for clams</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Clams</span>
+<span class="sd">=====</span>
+
+<span class="sd">Create simple, nested, command-line interfaces.</span>
+
+
+<span class="sd">Example</span>
+<span class="sd">-------</span>
+
+<span class="sd">A simple example with ``hello`` and ``goodbye`` subcommands.  This can be found</span>
+<span class="sd">at `/demo/salutation.py &lt;/demo/salutation.py&gt;`_.</span>
+
+<span class="sd">.. testcode::</span>
+
+<span class="sd">   from clams import arg, Command</span>
+
+<span class="sd">   salutation = Command(&#39;salutation&#39;)</span>
+
+<span class="sd">   @salutation.register(&#39;hello&#39;)</span>
+<span class="sd">   @arg(&#39;name&#39;, nargs=&#39;?&#39;)  # &lt;== same interface as argparse&#39;s `add_argument`</span>
+<span class="sd">   def handler(name):</span>
+<span class="sd">       print &#39;Hello %s&#39; % name or &#39;Nick&#39;</span>
+
+<span class="sd">   @salutation.register(&#39;goodbye&#39;)</span>
+<span class="sd">   @arg(&#39;name&#39;, nargs=&#39;?&#39;)</span>
+<span class="sd">   def handler(name):</span>
+<span class="sd">       print &#39;Goodbye %s&#39; % name or &#39;Nick&#39;</span>
+
+<span class="sd">   if __name__ == &#39;__main__&#39;:</span>
+<span class="sd">       salutation.init()</span>
+<span class="sd">       salutation.parse_args()</span>
+
+<span class="sd">Usage:</span>
+
+<span class="sd">.. code-block:: console</span>
+
+<span class="sd">   $ cd demo</span>
+
+<span class="sd">   $ ./salutation.py hello</span>
+<span class="sd">   Hello Nick</span>
+
+<span class="sd">   $ ./salutation.py hello Jason</span>
+<span class="sd">   Hello Jason</span>
+
+<span class="sd">   $ ./salutation.py goodbye &quot;my friend.&quot;</span>
+<span class="sd">   Goodbye my friend.</span>
+
+
+<span class="sd">For more in-depth examples, see the `/demo &lt;/demo&gt;`_ directory.</span>
+
+<span class="sd">.. doctest::</span>
+<span class="sd">   :hide:</span>
+
+<span class="sd">   &gt;&gt;&gt; salutation.init()</span>
+<span class="sd">   &gt;&gt;&gt; salutation.parse_args([&#39;hello&#39;, &#39;Bob&#39;])</span>
+<span class="sd">   Hello Bob</span>
+<span class="sd">   &gt;&gt;&gt; salutation.parse_args([&#39;goodbye&#39;, &#39;Alice&#39;])</span>
+<span class="sd">   Goodbye Alice</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">argparse</span>
+
+
+<div class="viewcode-block" id="arg"><a class="viewcode-back" href="../clams.html#clams.arg">[docs]</a><span class="k">def</span> <span class="nf">arg</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Annotate a function by adding the args/kwargs to the meta-data.</span>
+
+<span class="sd">    This appends an Argparse &quot;argument&quot; to the function&#39;s</span>
+<span class="sd">    ``ARGPARSE_ARGS_LIST`` attribute, creating ``ARGPARSE_ARGS_LIST`` if it</span>
+<span class="sd">    does not already exist.  Aside from that, it returns the decorated function</span>
+<span class="sd">    unmodified, and unwrapped.</span>
+
+<span class="sd">    The &quot;arguments&quot; are simply ``(args, kwargs)`` tuples which will be passed</span>
+<span class="sd">    to the Argparse parser created from the function as</span>
+<span class="sd">    ``parser.add_argument(*args, **kwargs)``.</span>
+
+<span class="sd">    `argparse.add_argument</span>
+<span class="sd">    &lt;https://docs.python.org/2/library/argparse.html#the-add-argument-method&gt;`_</span>
+<span class="sd">    should be consulted for up-to-date documentation on the accepted arguments.</span>
+<span class="sd">    For convenience, a list has been included here.</span>
+
+<span class="sd">    Args</span>
+<span class="sd">    ----</span>
+<span class="sd">    name/flags : str or list</span>
+<span class="sd">        Either a name or a list of (positional) option strings, e.g. (&#39;foo&#39;) or</span>
+<span class="sd">        (&#39;-f&#39;, &#39;--foo&#39;).</span>
+<span class="sd">    action : str</span>
+<span class="sd">        The basic type of action to be taken when this argument is encountered</span>
+<span class="sd">        at the command line.</span>
+<span class="sd">    nargs : str</span>
+<span class="sd">        The number of command-line arguments that should be consumed.</span>
+<span class="sd">    const</span>
+<span class="sd">        A constant value required by some action and nargs selections.</span>
+<span class="sd">    default</span>
+<span class="sd">        The value produced if the argument is absent from the command line.</span>
+<span class="sd">    type : type</span>
+<span class="sd">        The type to which the command-line argument should be converted.</span>
+<span class="sd">    choices</span>
+<span class="sd">        A container of the allowable values for the argument.</span>
+<span class="sd">    required : bool</span>
+<span class="sd">        Whether or not the command-line option may be omitted (optionals only).</span>
+<span class="sd">    help : str</span>
+<span class="sd">        A brief description of what the argument does.</span>
+<span class="sd">    metavar : str</span>
+<span class="sd">        A name for the argument in usage messages.</span>
+<span class="sd">    dest : str</span>
+<span class="sd">        The name of the attribute to be added to the object returned by</span>
+<span class="sd">        parse_args().</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        @arg(&#39;-n&#39;, &#39;--num&#39;, type=int, default=42)</span>
+<span class="sd">        @arg(&#39;-s&#39;, &#39;--some-switch&#39;, action=&#39;store_false&#39;)</span>
+<span class="sd">        def command_name(args):</span>
+<span class="sd">          print &#39;args: &#39;, args</span>
+
+<span class="sd">    See also</span>
+<span class="sd">    --------</span>
+<span class="sd">    `argparse.add_argument</span>
+<span class="sd">    &lt;https://docs.python.org/2/library/argparse.html#the-add-argument-method&gt;`_</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">annotate</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="c"># Get the list of argparse args already added to func (if any).</span>
+        <span class="n">argparse_args_list</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s">&#39;ARGPARSE_ARGS_LIST&#39;</span><span class="p">,</span> <span class="p">[])</span>
+        <span class="c"># Since we&#39;re only annotating (not wrapping) the function, appending</span>
+        <span class="c"># the argument to the list would result in the decorators being applied</span>
+        <span class="c"># in reverse order.  To prevent that, we simply add to the beginning.</span>
+        <span class="n">argparse_args_list</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">))</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s">&#39;ARGPARSE_ARGS_LIST&#39;</span><span class="p">,</span> <span class="n">argparse_args_list</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">func</span>
+    <span class="k">return</span> <span class="n">annotate</span>
+
+</div>
+<div class="viewcode-block" id="command"><a class="viewcode-back" href="../clams.html#clams.command">[docs]</a><span class="k">def</span> <span class="nf">command</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a command, using the wrapped function as the handler.</span>
+
+<span class="sd">    Args</span>
+<span class="sd">    ----</span>
+<span class="sd">    name : str</span>
+<span class="sd">        Name given to the created Command instance.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Command</span>
+<span class="sd">        A new instance of Command, with handler set to the wrapped function.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="n">command</span> <span class="o">=</span> <span class="n">Command</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">command</span><span class="o">.</span><span class="n">add_handler</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+        <span class="n">argparse_args_list</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s">&#39;ARGPARSE_ARGS_LIST&#39;</span><span class="p">,</span> <span class="p">[])</span>
+        <span class="k">for</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span> <span class="ow">in</span> <span class="n">argparse_args_list</span><span class="p">:</span>
+            <span class="n">command</span><span class="o">.</span><span class="n">add_arg_tuple</span><span class="p">((</span><span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">command</span>
+    <span class="k">return</span> <span class="n">wrapper</span>
+
+</div>
+<div class="viewcode-block" id="register"><a class="viewcode-back" href="../clams.html#clams.register">[docs]</a><span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="n">command</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Register a command with a parent command.</span>
+
+<span class="sd">    The ``register`` decorator decorates a Command instance (not a function).</span>
+<span class="sd">    It is intended to be used with the ``command`` decorator (which decorates a</span>
+<span class="sd">    function and returns a Command instance).</span>
+
+<span class="sd">    Args</span>
+<span class="sd">    ----</span>
+<span class="sd">    comand : Command</span>
+<span class="sd">        The parent command.</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    .. testcode::</span>
+
+<span class="sd">       git = Command(name=&#39;status&#39;)</span>
+
+<span class="sd">       @register(git)</span>
+<span class="sd">       @command(&#39;status&#39;)</span>
+<span class="sd">       def status():</span>
+<span class="sd">           print &#39;Nothing to commit.&#39;</span>
+
+<span class="sd">    .. doctest::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       &gt;&gt;&gt; git.init()</span>
+<span class="sd">       &gt;&gt;&gt; git.parse_args([&#39;status&#39;])</span>
+<span class="sd">       Nothing to commit.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="n">subcommand</span><span class="p">):</span>
+        <span class="n">command</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">subcommand</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">subcommand</span>
+    <span class="k">return</span> <span class="n">wrapper</span>
+
+</div>
+<div class="viewcode-block" id="register_command"><a class="viewcode-back" href="../clams.html#clams.register_command">[docs]</a><span class="k">def</span> <span class="nf">register_command</span><span class="p">(</span><span class="n">parent_command</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create and register a command with a parent command.</span>
+
+<span class="sd">    Args</span>
+<span class="sd">    ----</span>
+<span class="sd">    parent_comand : Command</span>
+<span class="sd">        The parent command.</span>
+<span class="sd">    name : str</span>
+<span class="sd">        Name given to the created Command instance.</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    .. testcode::</span>
+
+<span class="sd">       git = Command(name=&#39;status&#39;)</span>
+
+<span class="sd">       @register_command(git, &#39;status&#39;)</span>
+<span class="sd">       def status():</span>
+<span class="sd">           print &#39;Nothing to commit.&#39;</span>
+
+<span class="sd">    .. doctest::</span>
+<span class="sd">       :hide:</span>
+
+<span class="sd">       &gt;&gt;&gt; git.init()</span>
+<span class="sd">       &gt;&gt;&gt; git.parse_args([&#39;status&#39;])</span>
+<span class="sd">       Nothing to commit.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">command</span><span class="p">(</span><span class="n">name</span><span class="p">)(</span><span class="n">func</span><span class="p">)</span>
+        <span class="n">parent_command</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">wrapper</span>
+
+</div>
+<div class="viewcode-block" id="Command"><a class="viewcode-back" href="../clams.html#clams.Command">[docs]</a><span class="k">class</span> <span class="nc">Command</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">description</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">registered_arguments</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">registered_commands</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">handler</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="c"># The following attributes are constructed by `self.register`</span>
+
+        <span class="c"># Command passed to `self.register` argparse.ArgumentParser() if</span>
+        <span class="c"># Command is None (only on root, but not checked).</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">command</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">subparsers</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c"># self.command.add_subparsers()</span>
+
+<div class="viewcode-block" id="Command.add_arg"><a class="viewcode-back" href="../clams.html#clams.Command.add_arg">[docs]</a>    <span class="k">def</span> <span class="nf">add_arg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">registered_arguments</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="Command.add_arg_tuple"><a class="viewcode-back" href="../clams.html#clams.Command.add_arg_tuple">[docs]</a>    <span class="k">def</span> <span class="nf">add_arg_tuple</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg_tuple</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">registered_arguments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arg_tuple</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Command.add_command"><a class="viewcode-back" href="../clams.html#clams.Command.add_command">[docs]</a>    <span class="k">def</span> <span class="nf">add_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">registered_commands</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">command</span>
+</div>
+<div class="viewcode-block" id="Command.add_handler"><a class="viewcode-back" href="../clams.html#clams.Command.add_handler">[docs]</a>    <span class="k">def</span> <span class="nf">add_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handler</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">handler</span> <span class="o">=</span> <span class="n">handler</span>
+
+</div>
+<div class="viewcode-block" id="Command.attach_registered_arguments"><a class="viewcode-back" href="../clams.html#clams.Command.attach_registered_arguments">[docs]</a>    <span class="k">def</span> <span class="nf">attach_registered_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">registered_arguments</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">command</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="o">*</span><span class="n">arg</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">**</span><span class="n">arg</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</div>
+<div class="viewcode-block" id="Command.attach_registered_commands"><a class="viewcode-back" href="../clams.html#clams.Command.attach_registered_commands">[docs]</a>    <span class="k">def</span> <span class="nf">attach_registered_commands</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">registered_commands</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">subparsers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">command</span><span class="o">.</span><span class="n">add_subparsers</span><span class="p">()</span>
+
+            <span class="k">for</span> <span class="n">registered_command</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">registered_commands</span><span class="p">:</span>
+                <span class="n">subparser</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="n">registered_command</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">registered_command</span><span class="o">.</span><span class="n">handler</span><span class="p">:</span>
+                    <span class="n">subparser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">_func</span><span class="o">=</span><span class="n">registered_command</span><span class="o">.</span><span class="n">handler</span><span class="p">)</span>
+                <span class="n">registered_command</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">subparser</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="Command.init"><a class="viewcode-back" href="../clams.html#clams.Command.init">[docs]</a>    <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">command</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">command</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">command</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">command</span> <span class="o">=</span> <span class="n">command</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">attach_registered_arguments</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attach_registered_commands</span><span class="p">()</span>
+
+</div>
+<div class="viewcode-block" id="Command.parse_args"><a class="viewcode-back" href="../clams.html#clams.Command.parse_args">[docs]</a>    <span class="k">def</span> <span class="nf">parse_args</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">parsed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">command</span><span class="o">.</span><span class="n">parse_args</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">parsed</span><span class="p">,</span> <span class="s">&#39;_func&#39;</span><span class="p">):</span>
+            <span class="n">_func</span> <span class="o">=</span> <span class="n">parsed</span><span class="o">.</span><span class="n">_func</span>
+            <span class="k">del</span> <span class="n">parsed</span><span class="o">.</span><span class="n">_func</span>
+            <span class="k">return</span> <span class="n">_func</span><span class="p">(</span><span class="o">**</span><span class="nb">vars</span><span class="p">(</span><span class="n">parsed</span><span class="p">))</span>
+
+    <span class="c"># Decorators</span>
+    <span class="c"># ----------</span>
+</div>
+<div class="viewcode-block" id="Command.register_command"><a class="viewcode-back" href="../clams.html#clams.Command.register_command">[docs]</a>    <span class="k">def</span> <span class="nf">register_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Decorator to create and register a command from a function.</span>
+
+<span class="sd">        Args</span>
+<span class="sd">        ----</span>
+<span class="sd">        name : str</span>
+<span class="sd">            The name given to the registered command.</span>
+
+<span class="sd">        Example</span>
+<span class="sd">        -------</span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">           mygit = Command(name=&#39;mygit&#39;)</span>
+
+<span class="sd">           @mygit.register_command(&#39;status&#39;)</span>
+<span class="sd">           def status():</span>
+<span class="sd">               import subprocess</span>
+<span class="sd">               subprocess.call([&#39;git&#39;, &#39;status&#39;])</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">register_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Command.register"><a class="viewcode-back" href="../clams.html#clams.Command.register">[docs]</a>    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">register</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">register_command</span><span class="p">(</span><span class="n">name</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Nick Zarczynski.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.4',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

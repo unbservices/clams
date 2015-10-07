@@ -8,15 +8,15 @@ Applications Made Simple).
 Installation
 ------------
 
-.. code-block:: bash
+.. code-block:: console
 
-   pip install clams --extra-index-url https://repo.fury.io/nickzarr/
+   pip install clams
 
 
 Example
 -------
 
-A simple example with a ``hello`` and a ``goodbye`` sub-command.  This can be
+A simple example with ``hello`` and ``goodbye`` subcommands.  This can be
 found at `/demo/salutation.py </demo/salutation.py>`_.
 
 
@@ -29,7 +29,7 @@ found at `/demo/salutation.py </demo/salutation.py>`_.
 
 
     @salutation.register('hello')
-    @arg('name', nargs='?')  # <== same interface as argparse's ``add_argument``
+    @arg('name', nargs='?')  # same interface as argparse's ``add_argument``
     def handler(name):
         print 'Hello %s' % (name or 'Nick')
 
@@ -47,7 +47,7 @@ found at `/demo/salutation.py </demo/salutation.py>`_.
 
 Usage:
 
-.. code-block:: bash
+.. code-block:: console
 
    $ cd demo
 
@@ -55,7 +55,7 @@ Usage:
    Hello Nick
 
 
-.. code-block:: bash
+.. code-block:: console
 
    $ ./salutation.py hello Jason
    Hello Jason
