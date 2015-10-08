@@ -307,17 +307,30 @@ class Command(object):
                 subparser = self.subparsers.add_parser(subcommand.name)
                 if subcommand.handler:
                     self._register_handler(subparser, subcommand.handler)
-                subcommand.init(subparser)
+                subcommand._init(subparser)
 
-    def init(self, parser=None):
-        """Initialize/Build the ``argparse.ArgumentParser`` and subparsers."""
-        if parser is None:
-            self.parser = argparse.ArgumentParser()
-        else:
-            self.parser = parser
+    def _init(self, parser):
+        """Initialize/Build the ``argparse.ArgumentParser`` and subparsers.
+
+        This internal version of ``init`` is used to ensure that all
+        subcommands have a properly initialized
+
+        Args
+        ----
+        parser : argparse.ArgumentParser
+            The parser for this command.
+
+        """
+        assert isinstance(parser, argparse.ArgumentParser)
+        self.parser = parser
 
         self._attach_arguments()
         self._attach_subcommands()
+
+    def init(self):
+        """Initialize/Build the ``argparse.ArgumentParser`` and subparsers."""
+        parser = argparse.ArgumentParser()
+        self._init(parser)
 
     def parse_args(self, *args, **kwargs):
         namespace = self.parser.parse_args(*args, **kwargs)
