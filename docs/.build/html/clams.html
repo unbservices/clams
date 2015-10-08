@@ -174,28 +174,79 @@ at <a class="reference external" href="/demo/salutation.py">/demo/salutation.py<
 <dl class="method">
 <dt id="clams.Command.add_argument_tuple">
 <code class="descname">add_argument_tuple</code><span class="sig-paren">(</span><em>arg_tuple</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/clams.html#Command.add_argument_tuple"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#clams.Command.add_argument_tuple" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Add a new argument to this Command.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>arg_tuple</strong> (<a class="reference external" href="http://python.readthedocs.org/en/v2.7.2/library/functions.html#tuple" title="(in Python v2.7)"><em>tuple</em></a>) &#8211; A tuple of <code class="docutils literal"><span class="pre">(*args,</span> <span class="pre">**kwargs)</span></code> that will be passed to
+<code class="docutils literal"><span class="pre">argparse.ArgumentParser.add_argument</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="clams.Command.add_handler">
 <code class="descname">add_handler</code><span class="sig-paren">(</span><em>handler</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/clams.html#Command.add_handler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#clams.Command.add_handler" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Add a handler to be called with the parsed argument namespace.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>handler</strong> (<em>function</em>) &#8211; A function that accepts the arguments defined for this command.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="clams.Command.add_subcommand">
 <code class="descname">add_subcommand</code><span class="sig-paren">(</span><em>command</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/clams.html#Command.add_subcommand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#clams.Command.add_subcommand" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Add a new subcommand to this Command.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>command</strong> (<a class="reference internal" href="#clams.Command" title="clams.Command"><em>Command</em></a>) &#8211; The Command instance to add.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="clams.Command.init">
 <code class="descname">init</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/clams.html#Command.init"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#clams.Command.init" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize/Build the <code class="docutils literal"><span class="pre">argparse.ArgumentParser</span></code> and subparsers.</p>
+<p>This must be done before calling the <code class="docutils literal"><span class="pre">parse_args</span></code> method.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="clams.Command.parse_args">
-<code class="descname">parse_args</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/clams.html#Command.parse_args"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#clams.Command.parse_args" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">parse_args</code><span class="sig-paren">(</span><em>args=None</em>, <em>namespace=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/clams.html#Command.parse_args"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#clams.Command.parse_args" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse the command-line arguments and call the associated handler.</p>
+<p>The signature is the same as <a class="reference external" href="https://docs.python.org/2/library/argparse.html#argparse.ArgumentParser.parse_args">argparse.ArgumentParser.parse_args</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> (<a class="reference external" href="http://python.readthedocs.org/en/v2.7.2/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; A list of argument strings.  If <code class="docutils literal"><span class="pre">None</span></code> the list is taken from
+<code class="docutils literal"><span class="pre">sys.argv</span></code>.</li>
+<li><strong>namespace</strong> (<em>argparse.Namespace</em>) &#8211; A Namespace instance.  Defaults to a new empty Namespace.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
+<li><em>The return value of the handler called with the populated Namespace as</em></li>
+<li><em>kwargs.</em></li>
+</ul>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="clams.Command.register">
@@ -260,7 +311,7 @@ unmodified, and unwrapped.</p>
 <p>The &#8220;arguments&#8221; are simply <code class="docutils literal"><span class="pre">(args,</span> <span class="pre">kwargs)</span></code> tuples which will be passed
 to the Argparse parser created from the function as
 <code class="docutils literal"><span class="pre">parser.add_argument(*args,</span> <span class="pre">**kwargs)</span></code>.</p>
-<p><a class="reference external" href="https://docs.python.org/2/library/argparse.html#the-add-argument-method">argparse.add_argument</a>
+<p><a class="reference external" href="https://docs.python.org/2/library/argparse.html#the-add-argument-method">argparse.ArgumentParser.add_argument</a>
 should be consulted for up-to-date documentation on the accepted arguments.
 For convenience, a list has been included here.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -304,7 +355,7 @@ parse_args().</li>
 </div>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference external" href="https://docs.python.org/2/library/argparse.html#the-add-argument-method">argparse.add_argument</a></p>
+<p class="last"><a class="reference external" href="https://docs.python.org/2/library/argparse.html#the-add-argument-method">argparse.ArgumentParser.add_argument</a></p>
 </div>
 </dd></dl>
 

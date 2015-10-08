@@ -75,7 +75,7 @@ def arg(*args, **kwargs):
     to the Argparse parser created from the function as
     ``parser.add_argument(*args, **kwargs)``.
 
-    `argparse.add_argument
+    `argparse.ArgumentParser.add_argument
     <https://docs.python.org/2/library/argparse.html#the-add-argument-method>`_
     should be consulted for up-to-date documentation on the accepted arguments.
     For convenience, a list has been included here.
@@ -132,7 +132,7 @@ def arg(*args, **kwargs):
 
     See also
     --------
-    `argparse.add_argument
+    `argparse.ArgumentParser.add_argument
     <https://docs.python.org/2/library/argparse.html#the-add-argument-method>`_
 
     """
@@ -162,6 +162,10 @@ def command(name):
         A new instance of Command, with handler set to the wrapped function.
 
     """
+    # TODO(nick): It would be nice if this didn't transform the handler.  That
+    #   way, handlers could be used and tested independently of this system.
+    #   Unfortunately that's one of the better properties of the previous
+    #   system that wasn't preserved in this rewrite.
     def wrapper(func):
         command = Command(name)
         command.add_handler(func)
@@ -253,15 +257,41 @@ class Command(object):
         self.subcommands = []
         self.handler = None
         self.parser = None
+        self.initialized = False  # has the _init method been called?
 
     def add_argument_tuple(self, arg_tuple):
+        """Add a new argument to this Command.
+
+        Args
+        ----
+        arg_tuple : tuple
+            A tuple of ``(*args, **kwargs)`` that will be passed to
+            ``argparse.ArgumentParser.add_argument``.
+
+        """
         self.arguments.append(arg_tuple)
 
     def add_subcommand(self, command):
+        """Add a new subcommand to this Command.
+
+        Args
+        ----
+        command : Command
+            The Command instance to add.
+
+        """
         self.subcommands.append(command)
         return command
 
     def add_handler(self, handler):
+        """Add a handler to be called with the parsed argument namespace.
+
+        Args
+        ----
+        handler : function
+            A function that accepts the arguments defined for this command.
+
+        """
         self.handler = handler
 
     def _register_handler(self, subparser, handler):
@@ -278,6 +308,7 @@ class Command(object):
         Returns
         -------
         None
+
         """
         subparser.set_defaults(_func=handler)
 
@@ -288,6 +319,7 @@ class Command(object):
         -------
         function or None
             The handler defined in the namespace.
+
         """
         if hasattr(namespace, '_func'):
             _func = namespace._func
@@ -296,10 +328,16 @@ class Command(object):
             return _func
 
     def _attach_arguments(self):
+        """Add the registered arguments to the parser."""
         for arg in self.arguments:
             self.parser.add_argument(*arg[0], **arg[1])
 
     def _attach_subcommands(self):
+        """Create a subparser and add the registered commands to it.
+
+        This will also call ``_init`` on each subcommand (in turn invoking its
+        ``_attach_subcommands`` method).
+        """
         if self.subcommands:
             self.subparsers = self.parser.add_subparsers()
 
@@ -326,14 +364,38 @@ class Command(object):
 
         self._attach_arguments()
         self._attach_subcommands()
+        self.initialized = True
 
     def init(self):
-        """Initialize/Build the ``argparse.ArgumentParser`` and subparsers."""
+        """Initialize/Build the ``argparse.ArgumentParser`` and subparsers.
+
+        This must be done before calling the ``parse_args`` method.
+        """
         parser = argparse.ArgumentParser()
         self._init(parser)
 
-    def parse_args(self, *args, **kwargs):
-        namespace = self.parser.parse_args(*args, **kwargs)
+    def parse_args(self, args=None, namespace=None):
+        """Parse the command-line arguments and call the associated handler.
+
+        The signature is the same as `argparse.ArgumentParser.parse_args
+        <https://docs.python.org/2/library/argparse.html#argparse.ArgumentParser.parse_args>`_.
+
+        Args
+        ----
+        args : list
+            A list of argument strings.  If ``None`` the list is taken from
+            ``sys.argv``.
+        namespace : argparse.Namespace
+            A Namespace instance.  Defaults to a new empty Namespace.
+
+        Returns
+        -------
+        The return value of the handler called with the populated Namespace as
+        kwargs.
+
+        """
+        assert self.initialized, '`init` must be called before `parse_args`.'
+        namespace = self.parser.parse_args(args, namespace)
         handler = self._get_handler(namespace, remove_handler=True)
         if handler:
             return handler(**vars(namespace))
@@ -351,7 +413,7 @@ class Command(object):
 
         Example
         -------
-        .. testcode:: python
+        .. testcode::
 
            mygit = Command(name='mygit')
 
