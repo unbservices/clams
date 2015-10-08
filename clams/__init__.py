@@ -313,7 +313,7 @@ class Command(object):
         """Initialize/Build the ``argparse.ArgumentParser`` and subparsers.
 
         This internal version of ``init`` is used to ensure that all
-        subcommands have a properly initialized
+        subcommands have a properly initialized parser.
 
         Args
         ----
