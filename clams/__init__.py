@@ -360,11 +360,36 @@ class Command(object):
 
         """
         assert isinstance(parser, argparse.ArgumentParser)
-        self.parser = parser
+        self._init_parser(parser)
 
         self._attach_arguments()
         self._attach_subcommands()
         self.initialized = True
+
+    def _init_parser(self, parser):
+        self.parser = parser
+        self.parser.title = self.title
+        self.parser.description = self.description
+        self.parser.formatter_class = argparse.RawDescriptionHelpFormatter
+        # self.parser.formatter_class = argparse.RawTextHelpFormatter
+        # self.parser.formatter_class = argparse.ArgumentDefaultsHelpFormatter
+
+    def _parse_doc(self, doc):
+        # TODO(nick): This was previously used to parse a handler's docstring
+        #   and include it in the command's title/description.
+        #   Use this or remove it.
+        import textwrap
+        parts = {
+            'title': '',
+            'body': '',
+        }
+        if not doc:
+            return parts
+        sp = doc.split('\n', 1)
+        parts['title'] = sp[0].strip()
+        if len(sp) > 1:
+            parts['body'] = textwrap.dedent(sp[1]).strip()
+        return parts
 
     def init(self):
         """Initialize/Build the ``argparse.ArgumentParser`` and subparsers.
