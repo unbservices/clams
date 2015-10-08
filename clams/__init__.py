@@ -61,6 +61,7 @@ For more in-depth examples, see the `/demo </demo>`_ directory.
 """
 
 import argparse
+import textwrap
 
 
 def arg(*args, **kwargs):
@@ -148,6 +149,32 @@ def arg(*args, **kwargs):
     return annotate
 
 
+def _parse_doc(doc=''):
+    """Parse a docstring into title and description.
+
+    Args
+    ----
+    doc : str
+        A docstring, optionally with a title line, separated from a description
+        line by at least one blank line.
+
+    Returns
+    -------
+    title : str
+        The first line of the docstring.
+    description : str
+        The rest of a docstring.
+
+    """
+    title, description = '', ''
+    if doc:
+        sp = doc.split('\n', 1)
+        title = sp[0].strip()
+        if len(sp) > 1:
+            description = textwrap.dedent(sp[1]).strip()
+    return (title, description)
+
+
 def command(name):
     """Create a command, using the wrapped function as the handler.
 
@@ -167,7 +194,8 @@ def command(name):
     #   Unfortunately that's one of the better properties of the previous
     #   system that wasn't preserved in this rewrite.
     def wrapper(func):
-        command = Command(name)
+        title, description = _parse_doc(func.__doc__)
+        command = Command(name=name, title=title, description=description)
         command.add_handler(func)
         argparse_args_list = getattr(func, 'ARGPARSE_ARGS_LIST', [])
         for args, kwargs in argparse_args_list:
@@ -342,7 +370,8 @@ class Command(object):
             self.subparsers = self.parser.add_subparsers()
 
             for subcommand in self.subcommands:
-                subparser = self.subparsers.add_parser(subcommand.name)
+                subparser = self.subparsers.add_parser(subcommand.name,
+                                                       help=subcommand.title)
                 if subcommand.handler:
                     self._register_handler(subparser, subcommand.handler)
                 subcommand._init(subparser)
@@ -371,25 +400,6 @@ class Command(object):
         self.parser.title = self.title
         self.parser.description = self.description
         self.parser.formatter_class = argparse.RawDescriptionHelpFormatter
-        # self.parser.formatter_class = argparse.RawTextHelpFormatter
-        # self.parser.formatter_class = argparse.ArgumentDefaultsHelpFormatter
-
-    def _parse_doc(self, doc):
-        # TODO(nick): This was previously used to parse a handler's docstring
-        #   and include it in the command's title/description.
-        #   Use this or remove it.
-        import textwrap
-        parts = {
-            'title': '',
-            'body': '',
-        }
-        if not doc:
-            return parts
-        sp = doc.split('\n', 1)
-        parts['title'] = sp[0].strip()
-        if len(sp) > 1:
-            parts['body'] = textwrap.dedent(sp[1]).strip()
-        return parts
 
     def init(self):
         """Initialize/Build the ``argparse.ArgumentParser`` and subparsers.
