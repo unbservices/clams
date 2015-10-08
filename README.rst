@@ -4,7 +4,7 @@ Clams
 Create simple, nested, command-line interfaces with Clams (Command Line
 Applications Made Simple).
 
-.. warning::
+.. danger::
    Clams is pre-alpha.
 
 
