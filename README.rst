@@ -70,7 +70,9 @@ Usage:
 Documentation
 -------------
 
-Documentation for Clams can be found in the `/docs </docs>`_ directory.
+Clams documentation is `available on ReadTheDocs
+<http://clams.readthedocs.org/en/latest/>`_ and can be found locally in the
+`/docs </docs>`_ directory.
 
 
 Issue Reporting and Contact Information
