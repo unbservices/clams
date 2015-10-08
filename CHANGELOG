@@ -1,3 +1,13 @@
+0.0.5
+=====
+
+- Add support for title and descriptions in Command help
+- Add support for adding title/description by writing docstrings on a wrapped
+  handler.
+- Refactored methods to have better, more intuitive naming
+- Add lots of documentation and docstrings
+
+
 0.0.1
 =====
 
