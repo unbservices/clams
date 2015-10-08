@@ -110,12 +110,25 @@ def arg(*args, **kwargs):
 
     Example
     -------
-    .. code-block:: python
+    .. testsetup::
 
+       mycommand = Command(name='mycommand')
+
+    .. testcode::
+
+        @command(name='echo')
         @arg('-n', '--num', type=int, default=42)
         @arg('-s', '--some-switch', action='store_false')
-        def command_name(args):
-          print 'args: ', args
+        @arg('foo')
+        def echo(foo, num, some_switch):
+            print foo, num
+
+    .. doctest::
+
+       >>> echo_subcommand = mycommand.add_subcommand(echo)
+       >>> mycommand.init()
+       >>> mycommand.parse_args(['echo', 'hi', '-n', '42'])
+       hi 42
 
     See also
     --------
@@ -154,7 +167,7 @@ def command(name):
         command.add_handler(func)
         argparse_args_list = getattr(func, 'ARGPARSE_ARGS_LIST', [])
         for args, kwargs in argparse_args_list:
-            command.add_arg_tuple((args, kwargs))
+            command.add_argument_tuple((args, kwargs))
         return command
     return wrapper
 
@@ -175,9 +188,9 @@ def register(command):
     -------
     .. testcode::
 
-       git = Command(name='status')
+       mygit = Command(name='status')
 
-       @register(git)
+       @register(mygit)
        @command('status')
        def status():
            print 'Nothing to commit.'
@@ -185,13 +198,13 @@ def register(command):
     .. doctest::
        :hide:
 
-       >>> git.init()
-       >>> git.parse_args(['status'])
+       >>> mygit.init()
+       >>> mygit.parse_args(['status'])
        Nothing to commit.
 
     """
     def wrapper(subcommand):
-        command.add_command(subcommand)
+        command.add_subcommand(subcommand)
         return subcommand
     return wrapper
 
@@ -210,23 +223,23 @@ def register_command(parent_command, name):
     -------
     .. testcode::
 
-       git = Command(name='status')
+       mygit = Command(name='status')
 
-       @register_command(git, 'status')
+       @register_command(mygit, 'status')
        def status():
            print 'Nothing to commit.'
 
     .. doctest::
        :hide:
 
-       >>> git.init()
-       >>> git.parse_args(['status'])
+       >>> mygit.init()
+       >>> mygit.parse_args(['status'])
        Nothing to commit.
 
     """
     def wrapper(func):
         c = command(name)(func)
-        parent_command.add_command(c)
+        parent_command.add_subcommand(c)
     return wrapper
 
 
@@ -236,63 +249,81 @@ class Command(object):
         self.title = title
         self.description = description
 
-        self.registered_arguments = []
-        self.registered_commands = []
+        self.arguments = []
+        self.subcommands = []
         self.handler = None
+        self.parser = None
 
-        # The following attributes are constructed by `self.register`
+    def add_argument_tuple(self, arg_tuple):
+        self.arguments.append(arg_tuple)
 
-        # Command passed to `self.register` argparse.ArgumentParser() if
-        # Command is None (only on root, but not checked).
-        self.command = None
-        self.subparsers = None  # self.command.add_subparsers()
-
-    def add_arg(self, *args, **kwargs):
-        self.registered_arguments.append((args, kwargs))
-
-    def add_arg_tuple(self, arg_tuple):
-        self.registered_arguments.append(arg_tuple)
-
-    def add_command(self, command):
-        self.registered_commands.append(command)
+    def add_subcommand(self, command):
+        self.subcommands.append(command)
         return command
 
     def add_handler(self, handler):
         self.handler = handler
 
+    def _register_handler(self, subparser, handler):
+        """Add a handler as a default ``_func`` attribute to a subparser.
 
-    def attach_registered_arguments(self):
-        for arg in self.registered_arguments:
-            self.command.add_argument(*arg[0], **arg[1])
+        Args
+        ----
+        subparser : argparse.ArgumentParser
+            The subparser to add the handler to.
+        handler : function
+            The function to add to the subparser, which will be called with the
+            namespace returned by the subparser as kwargs.
 
-    def attach_registered_commands(self):
-        if self.registered_commands:
-            self.subparsers = self.command.add_subparsers()
+        Returns
+        -------
+        None
+        """
+        subparser.set_defaults(_func=handler)
 
-            for registered_command in self.registered_commands:
-                subparser = self.subparsers.add_parser(registered_command.name)
-                if registered_command.handler:
-                    subparser.set_defaults(_func=registered_command.handler)
-                registered_command.init(subparser)
+    def _get_handler(self, namespace, remove_handler=False):
+        """Get a handler (if present) from a namespace.
 
+        Returns
+        -------
+        function or None
+            The handler defined in the namespace.
+        """
+        if hasattr(namespace, '_func'):
+            _func = namespace._func
+            if remove_handler:
+                del namespace._func
+            return _func
 
-    def init(self, command=None):
-        if self.command is None:
-            if command is None:
-                self.command = argparse.ArgumentParser()
-            else:
-                self.command = command
+    def _attach_arguments(self):
+        for arg in self.arguments:
+            self.parser.add_argument(*arg[0], **arg[1])
 
-        self.attach_registered_arguments()
-        self.attach_registered_commands()
+    def _attach_subcommands(self):
+        if self.subcommands:
+            self.subparsers = self.parser.add_subparsers()
 
+            for subcommand in self.subcommands:
+                subparser = self.subparsers.add_parser(subcommand.name)
+                if subcommand.handler:
+                    self._register_handler(subparser, subcommand.handler)
+                subcommand.init(subparser)
+
+    def init(self, parser=None):
+        """Initialize/Build the ``argparse.ArgumentParser`` and subparsers."""
+        if parser is None:
+            self.parser = argparse.ArgumentParser()
+        else:
+            self.parser = parser
+
+        self._attach_arguments()
+        self._attach_subcommands()
 
     def parse_args(self, *args, **kwargs):
-        parsed = self.command.parse_args(*args, **kwargs)
-        if hasattr(parsed, '_func'):
-            _func = parsed._func
-            del parsed._func
-            return _func(**vars(parsed))
+        namespace = self.parser.parse_args(*args, **kwargs)
+        handler = self._get_handler(namespace, remove_handler=True)
+        if handler:
+            return handler(**vars(namespace))
 
     # Decorators
     # ----------
@@ -307,19 +338,59 @@ class Command(object):
 
         Example
         -------
-        .. code-block:: python
+        .. testcode:: python
 
            mygit = Command(name='mygit')
 
-           @mygit.register_command('status')
+           @mygit.register_command(name='status')
            def status():
-               import subprocess
-               subprocess.call(['git', 'status'])
+               print 'Nothing to commit.'
+
+        .. doctest::
+           :hide:
+
+           >>> mygit.init()
+           >>> mygit.parse_args(['status'])
+           Nothing to commit.
 
         """
         return register_command(self, name)
 
     def register(self, name=None):
+        """Decorator to (create and) register a command from a function.
+
+        Args
+        ----
+        name : Optional[str]
+            If present, create a command and register it (see
+            ``register_command``).
+
+        Example
+        -------
+        .. testcode::
+
+           mygit = Command(name='status')
+
+           @mygit.register(name='status')
+           def status():
+               print 'Nothing to commit.'
+
+           @mygit.register()
+           @command(name='log')
+           def log():
+               print 'Show logs.'
+
+        .. doctest::
+           :hide:
+
+           >>> mygit.init()
+           >>> mygit.parse_args(['status'])
+           Nothing to commit.
+
+           >>> mygit.parse_args(['log'])
+           Show logs.
+
+        """
         if name is None:
             return register(self)
         else:

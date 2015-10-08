@@ -1,17 +1,18 @@
-Results of doctest builder run on 2015-10-07 09:52:06
+Results of doctest builder run on 2015-10-07 21:29:31
 =====================================================
 
 Document: clams
 ---------------
-1 items passed all tests:
-  10 tests in default
-10 tests in 1 items.
-10 passed and 0 failed.
+2 items passed all tests:
+  20 tests in default
+   1 tests in python
+21 tests in 2 items.
+21 passed and 0 failed.
 Test passed.
 
 Doctest summary
 ===============
-   10 tests
+   21 tests
     0 failures in tests
     0 failures in setup code
     0 failures in cleanup code

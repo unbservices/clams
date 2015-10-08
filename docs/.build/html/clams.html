@@ -172,18 +172,8 @@ at <a class="reference external" href="/demo/salutation.py">/demo/salutation.py<
 <em class="property">class </em><code class="descclassname">clams.</code><code class="descname">Command</code><span class="sig-paren">(</span><em>name</em>, <em>title=''</em>, <em>description=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/clams.html#Command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#clams.Command" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <dl class="method">
-<dt id="clams.Command.add_arg">
-<code class="descname">add_arg</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/clams.html#Command.add_arg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#clams.Command.add_arg" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="clams.Command.add_arg_tuple">
-<code class="descname">add_arg_tuple</code><span class="sig-paren">(</span><em>arg_tuple</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/clams.html#Command.add_arg_tuple"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#clams.Command.add_arg_tuple" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="clams.Command.add_command">
-<code class="descname">add_command</code><span class="sig-paren">(</span><em>command</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/clams.html#Command.add_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#clams.Command.add_command" title="Permalink to this definition">¶</a></dt>
+<dt id="clams.Command.add_argument_tuple">
+<code class="descname">add_argument_tuple</code><span class="sig-paren">(</span><em>arg_tuple</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/clams.html#Command.add_argument_tuple"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#clams.Command.add_argument_tuple" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -192,19 +182,15 @@ at <a class="reference external" href="/demo/salutation.py">/demo/salutation.py<
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="clams.Command.attach_registered_arguments">
-<code class="descname">attach_registered_arguments</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/clams.html#Command.attach_registered_arguments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#clams.Command.attach_registered_arguments" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="clams.Command.attach_registered_commands">
-<code class="descname">attach_registered_commands</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/clams.html#Command.attach_registered_commands"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#clams.Command.attach_registered_commands" title="Permalink to this definition">¶</a></dt>
+<dt id="clams.Command.add_subcommand">
+<code class="descname">add_subcommand</code><span class="sig-paren">(</span><em>command</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/clams.html#Command.add_subcommand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#clams.Command.add_subcommand" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="clams.Command.init">
-<code class="descname">init</code><span class="sig-paren">(</span><em>command=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/clams.html#Command.init"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#clams.Command.init" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">init</code><span class="sig-paren">(</span><em>parser=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/clams.html#Command.init"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#clams.Command.init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize/Build the <code class="docutils literal"><span class="pre">argparse.ArgumentParser</span></code> and subparsers.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="clams.Command.parse_args">
@@ -214,7 +200,30 @@ at <a class="reference external" href="/demo/salutation.py">/demo/salutation.py<
 <dl class="method">
 <dt id="clams.Command.register">
 <code class="descname">register</code><span class="sig-paren">(</span><em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/clams.html#Command.register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#clams.Command.register" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Decorator to (create and) register a command from a function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<em>Optional[str]</em>) &#8211; If present, create a command and register it (see
+<code class="docutils literal"><span class="pre">register_command</span></code>).</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">mygit</span> <span class="o">=</span> <span class="n">Command</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;status&#39;</span><span class="p">)</span>
+
+<span class="nd">@mygit.register</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;status&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">status</span><span class="p">():</span>
+    <span class="k">print</span> <span class="s">&#39;Nothing to commit.&#39;</span>
+
+<span class="nd">@mygit.register</span><span class="p">()</span>
+<span class="nd">@command</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;log&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">log</span><span class="p">():</span>
+    <span class="k">print</span> <span class="s">&#39;Show logs.&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
 
 <dl class="method">
 <dt id="clams.Command.register_command">
@@ -231,10 +240,9 @@ at <a class="reference external" href="/demo/salutation.py">/demo/salutation.py<
 <p class="rubric">Example</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">mygit</span> <span class="o">=</span> <span class="n">Command</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;mygit&#39;</span><span class="p">)</span>
 
-<span class="nd">@mygit.register_command</span><span class="p">(</span><span class="s">&#39;status&#39;</span><span class="p">)</span>
+<span class="nd">@mygit.register_command</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;status&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">status</span><span class="p">():</span>
-    <span class="kn">import</span> <span class="nn">subprocess</span>
-    <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s">&#39;git&#39;</span><span class="p">,</span> <span class="s">&#39;status&#39;</span><span class="p">])</span>
+    <span class="k">print</span> <span class="s">&#39;Nothing to commit.&#39;</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -280,10 +288,18 @@ parse_args().</li>
 </tbody>
 </table>
 <p class="rubric">Example</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="nd">@arg</span><span class="p">(</span><span class="s">&#39;-n&#39;</span><span class="p">,</span> <span class="s">&#39;--num&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@command</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;echo&#39;</span><span class="p">)</span>
+<span class="nd">@arg</span><span class="p">(</span><span class="s">&#39;-n&#39;</span><span class="p">,</span> <span class="s">&#39;--num&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 <span class="nd">@arg</span><span class="p">(</span><span class="s">&#39;-s&#39;</span><span class="p">,</span> <span class="s">&#39;--some-switch&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&#39;store_false&#39;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">command_name</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
-  <span class="k">print</span> <span class="s">&#39;args: &#39;</span><span class="p">,</span> <span class="n">args</span>
+<span class="nd">@arg</span><span class="p">(</span><span class="s">&#39;foo&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">echo</span><span class="p">(</span><span class="n">foo</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="n">some_switch</span><span class="p">):</span>
+    <span class="k">print</span> <span class="n">foo</span><span class="p">,</span> <span class="n">num</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">echo_subcommand</span> <span class="o">=</span> <span class="n">mycommand</span><span class="o">.</span><span class="n">add_subcommand</span><span class="p">(</span><span class="n">echo</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mycommand</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mycommand</span><span class="o">.</span><span class="n">parse_args</span><span class="p">([</span><span class="s">&#39;echo&#39;</span><span class="p">,</span> <span class="s">&#39;hi&#39;</span><span class="p">,</span> <span class="s">&#39;-n&#39;</span><span class="p">,</span> <span class="s">&#39;42&#39;</span><span class="p">])</span>
+<span class="go">hi 42</span>
 </pre></div>
 </div>
 <div class="admonition seealso">
@@ -326,9 +342,9 @@ function and returns a Command instance).</p>
 </tbody>
 </table>
 <p class="rubric">Example</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">git</span> <span class="o">=</span> <span class="n">Command</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;status&#39;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">mygit</span> <span class="o">=</span> <span class="n">Command</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;status&#39;</span><span class="p">)</span>
 
-<span class="nd">@register</span><span class="p">(</span><span class="n">git</span><span class="p">)</span>
+<span class="nd">@register</span><span class="p">(</span><span class="n">mygit</span><span class="p">)</span>
 <span class="nd">@command</span><span class="p">(</span><span class="s">&#39;status&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">status</span><span class="p">():</span>
     <span class="k">print</span> <span class="s">&#39;Nothing to commit.&#39;</span>
@@ -353,9 +369,9 @@ function and returns a Command instance).</p>
 </tbody>
 </table>
 <p class="rubric">Example</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">git</span> <span class="o">=</span> <span class="n">Command</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;status&#39;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">mygit</span> <span class="o">=</span> <span class="n">Command</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;status&#39;</span><span class="p">)</span>
 
-<span class="nd">@register_command</span><span class="p">(</span><span class="n">git</span><span class="p">,</span> <span class="s">&#39;status&#39;</span><span class="p">)</span>
+<span class="nd">@register_command</span><span class="p">(</span><span class="n">mygit</span><span class="p">,</span> <span class="s">&#39;status&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">status</span><span class="p">():</span>
     <span class="k">print</span> <span class="s">&#39;Nothing to commit.&#39;</span>
 </pre></div>
