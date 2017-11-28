@@ -20,6 +20,7 @@ Usage:
 
 """
 from __future__ import print_function
+from __future__ import unicode_literals
 
 from clams import arg, Command
 

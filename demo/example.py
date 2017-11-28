@@ -7,6 +7,7 @@ Just some simple examples, done in a bit of a literate-programming style.
 
 """
 from __future__ import print_function
+from __future__ import unicode_literals
 
 from clams import Command, arg, command, register, register_command
 

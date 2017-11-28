@@ -5,6 +5,7 @@ Clams
 Create simple, nested, command-line interfaces.
 
 """
+from __future__ import unicode_literals
 
 import os
 from setuptools import setup, find_packages

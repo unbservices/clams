@@ -37,6 +37,7 @@ NOTE: The manual build instructions here may not contain all the steps
 performed by ``unb-cli build sphinx``.
 
 """
+from __future__ import unicode_literals
 
 from builtins import str
 import sys

@@ -5,6 +5,7 @@ Clams Git
 This is the executable source-code version of git.rst.
 
 """
+from __future__ import unicode_literals
 
 from clams import arg, Command
 

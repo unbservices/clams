@@ -59,6 +59,7 @@ For more in-depth examples, see the `/demo </demo>`_ directory.
    Goodbye Alice
 
 """
+from __future__ import unicode_literals
 
 from builtins import object
 import argparse
