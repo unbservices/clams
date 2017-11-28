@@ -6,6 +6,7 @@ Clams Examples
 Just some simple examples, done in a bit of a literate-programming style.
 
 """
+from __future__ import print_function
 
 from clams import Command, arg, command, register, register_command
 
@@ -32,7 +33,7 @@ echo1 = Command('echo1')
 echo1.add_arg('foo')
 
 def _echo1(foo):
-    print foo
+    print(foo)
 
 echo1.add_handler(_echo1)
 
@@ -49,7 +50,7 @@ unb.add_command(echo1)
 @command('echo2')
 @arg('foo')
 def echo2(foo):
-    print foo
+    print(foo)
 
 unb.add_command(echo2)
 
@@ -64,7 +65,7 @@ unb.add_command(echo2)
 @command('echo3')
 @arg('foo')
 def handler(foo):
-    print foo
+    print(foo)
 
 
 # Option 4: We can (arguably) make this a little cleaner by using the
@@ -74,7 +75,7 @@ def handler(foo):
 @command('echo4')
 @arg('foo')
 def handler(foo):
-    print foo
+    print(foo)
 
 
 # Option 5: We can combine `register` and `command` by using the
@@ -83,7 +84,7 @@ def handler(foo):
 @register_command(unb, 'echo5')
 @arg('foo')
 def handler(foo):
-    print foo
+    print(foo)
 
 
 # Option 6: Slightly less arguably we can make this cleaner by using the
@@ -92,7 +93,7 @@ def handler(foo):
 @unb.register_command('echo6')
 @arg('foo')
 def handler(foo):
-    print foo
+    print(foo)
 
 
 # Option 7: Finally we can go back to the `register` decorator on the parent
@@ -102,7 +103,7 @@ def handler(foo):
 @unb.register('echo7')
 @arg('foo')
 def handler(foo):
-    print foo
+    print(foo)
 
 
 # This is all a bit neater than the standard argparse interface, but other than

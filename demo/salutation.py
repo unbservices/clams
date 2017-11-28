@@ -19,6 +19,7 @@ Usage:
     Goodbye my friend.
 
 """
+from __future__ import print_function
 
 from clams import arg, Command
 
@@ -29,13 +30,13 @@ salutation = Command('salutation')
 @salutation.register('hello')
 @arg('name', nargs='?')  # <== same interface as argparse's `add_argument`
 def handler(name):
-    print 'Hello %s' % (name or 'Nick')
+    print('Hello %s' % (name or 'Nick'))
 
 
 @salutation.register('goodbye')
 @arg('name', nargs='?')
 def handler(name):
-    print 'Goodbye %s' % (name or 'Nick')
+    print('Goodbye %s' % (name or 'Nick'))
 
 
 if __name__ == '__main__':
