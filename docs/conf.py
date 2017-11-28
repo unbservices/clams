@@ -38,6 +38,7 @@ performed by ``unb-cli build sphinx``.
 
 """
 
+from builtins import str
 import sys
 import os
 from datetime import datetime

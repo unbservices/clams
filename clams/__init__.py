@@ -60,6 +60,7 @@ For more in-depth examples, see the `/demo </demo>`_ directory.
 
 """
 
+from builtins import object
 import argparse
 import textwrap
 
